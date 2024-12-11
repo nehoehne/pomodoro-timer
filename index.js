@@ -4,7 +4,9 @@ const sleep = ms => new Promise(res => setTimeout(res, ms))
 const minToMil = minutes => minutes * 60000;
 
 const rounds = process.argv.length === 3 && Number.isInteger(parseInt(process.argv[2])) ? process.argv[2] : 1;
-console.log(rounds);
+const plural = rounds == 1;
+
+console.log("Number of rounds: " + rounds)
 
 const notify = (message) => {
     notifier.notify({
@@ -25,10 +27,14 @@ async function session() {
             notify('Start working again')
 
         await sleep(minToMil(25));
-        notify(notifier, 'Take a 5 minute break')
+
+        notify('Take a 5 minute break')
         await sleep(minToMil(5));
     }
+
+    notify(`Well done! You completed ${rounds} Pomodoro session${plural ? "" : "s"}`)
 }
+
 
 session();
 
